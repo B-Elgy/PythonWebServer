@@ -1,6 +1,6 @@
 __all__=["Scanner"]
 class OptScanner:
-	__all__=["__init__","scan"]
+	__all__=["__init__","scan","__clear__","__settings__"]
 	def __init__(self, firstFlag=True, flagsNeedArgs=True):
 		self.flags=list()
 		self.args=list()
