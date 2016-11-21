@@ -25,6 +25,7 @@ def genHeader(f):
     return h
 
 def genReturn(f):
+    f="html/"+f
     ha=genHeader(f)
     if(not os.path.exists("./"+f)):
         f="404Error.html"
