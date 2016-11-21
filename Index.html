@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Python Server</title>
+	</head>
+
+	<body>
+		<center>
+			<h1>Hello, World!</h1>
+			<p id="par">Text</p>
+			<input type="text" id="e"/>
+			<button onclick="r()">Run</button>
+			<script>
+				function xssParse(str){
+					var blacklistChars = [["<","&lt;"],[">","&gt;["],["\\","\\\\"],["'","\'"],['"',"\""]]
+					var res="";
+					for(i=0;i<str.length;i++){
+						var blc = -1;
+						for(k=0;k<blacklistChars.length;k++){
+							if(str.slice(i,i+1)==blacklistChars[k][0]){
+								blc = k;
+							}
+						}
+						if(blc==-1){
+							res+=str.slice(i,i+1);
+						} else{
+							res+=blacklistChars[blc][1];
+						}
+
+					}
+					return res;
+				}
+				function r() {
+					var ele = document.getElementById('e');
+					var val = xssParse(ele.value);
+					para = document.getElementById('par');
+					para.innerHTML = val;
+				}
+			</script>
+		</center>
+	</body>
+</html>
