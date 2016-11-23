@@ -14,26 +14,24 @@ contentTypes = {"html":"text/html", "js":"application/javascript", "json":"appli
 def genHeaders(f):
     #Local Functions and Variable
     headers = ""
-    encodedHeaders = b""
-    def headerAppend(header):
-        headers = headers + header
     #Headers Creation
     #Status Header  
     if(f == "404Error.html"): #404 Not Found Status Header
         statusHeader = "HTTP/1.1 404 Not Found" + endl
     else: #200 OK Status Header
         statusHeader = "HTTP/1.1 200 OK" + endl
-    headerAppend(statusHeader)
+    headers = headers + statusHeader
     #Date Header
     dateHeader = datetime.datetime.now().strftime("Date: %a, %d %b %Y %H:%M:%S EST"+endl)
-    headerAppend(dateHeader)
+    headers = headers + dateHeader
     #Content-Type Header
     contentTypeHeader = "Content-Type: " + contentTypes[re.split("\.",f)[1]] + endl
-    headerAppend(contentTypeHeader)
+    headers = headers + contentTypeHeader
     #Content-Length Header
-    contentLengthHeader = "Content-Length: " + len(open("./html/" + f, "rb").read()) + endl
-    headerAppend(contentLengthHeader)
-    headerAppend(endl)
+    contentLengthHeader = "Content-Length: " + str(len(open("./html/" + f, "rb").read())) + endl
+    headers = headers + contentLengthHeader
+    #Ending endl
+    headers = headers + endl
     return (headers,headers.encode())
 
 #Return Function
