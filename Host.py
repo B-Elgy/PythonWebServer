@@ -1,46 +1,10 @@
-#Args:Host, Port, Number of Requests To Be Filled, Backlog
 #Import Statements
 import datetime
 import sys
 import os
 import socket as sock
 import PythonLibraries.optHandler as optHandler
-endl="\n"
-def genHeader(f):
-    h=[]
-    if(not os.path.exists("./" + f)):
-        f="404Error.html"
-        h.append(("HTTP/1.1 404 Not Found"+endl).encode())
-    else:
-        h.append(("HTTP/1.1 200 OK"+endl).encode())
-    dateH=datetime.datetime.now().strftime("Date: %a, %d %b %Y %H:%M:%S EST"+endl).encode()
-    h.append(dateH)
-    fobj=open("./"+f)
-    conLen=len(fobj.read())
-    fobj.seek(0)
-    conLenH=("Content-Length: " + str(conLen) + endl).encode()
-    h.append(conLenH)
-    conTypeH=("Content-Type: text/html" + endl).encode()
-    h.append(conTypeH)
-    return h
-
-def genReturn(f):
-    ha=genHeader(f)
-    if(not os.path.exists("./"+f)):
-        f="404Error.html"
-    h=""
-    for hl in ha:
-        h=h+hl.decode()
-    h=h.encode()
-    bendl=endl.encode()
-    r=h+bendl
-    fc=""
-    fa=open("./"+f).readlines()
-    for fl in fa:
-        fc=fc+fl
-    fc=fc.encode()
-    r=r+fc
-    return r
+import PythonLibraries.returnGenerators as returnGens
 
 def main(a):
     #Argument Handling
@@ -77,8 +41,11 @@ def main(a):
 
     #Number Of Requests To Be Filled
     if("-r" in scanner.flags):
+        forever = False
         try:
             numOfReq=int(scanner.opts["-r"])
+            if(numOfReq == 0):
+                forever = True
         except ValueError:
             print("Number Of Requests Must Be An Integer")
     else:
@@ -94,11 +61,11 @@ def main(a):
           " With A Backlog For " + str(backlog) + " Clients. Responding to " +
           str(numOfReq) + " requests.")
     #Main Loop
-    for loopIter in range(numOfReq):
+    for loopIter in range(numOfReq) or forever:
         print("Waiting For Connection")
         con, add = s.accept()
         print("Accepted Connection At " + str(add) + ".")
-        rec = con.recv(512)
+        rec = con.recv(2048)
         rec = rec.decode()
         print(rec)
         page=""
