@@ -76,7 +76,7 @@ def main(a):
         if(page==""):
             page="index.html"
         print(page)
-        con.send(genReturn(page))
+        con.send(returnGens.genReturn(page))
         print(rec)
         con.close()
         c=False
