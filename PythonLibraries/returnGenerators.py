@@ -15,9 +15,8 @@ def genHeaders(f):
     #Local Functions and Variable
     headers = ""
     encodedHeaders = b""
-    def headerAppend(header,encodedHeader):
+    def headerAppend(header):
         headers = headers + header
-        encodedHeaders = encodedHeaders + encodedHeader
     #Headers Creation
     #Status Header  
     if(f == "404Error.html"): #404 Not Found Status Header
